@@ -12,10 +12,26 @@ import { userRoutes } from "./modules/users/users.routes.js";
 
 export const app = express();
 
+const allowedOrigins = [
+  env.CLIENT_URL,
+  "http://localhost:3000",
+  ...(env.CORS_ORIGINS?.split(",").map((origin) => origin.trim()).filter(Boolean) ?? [])
+];
+
 app.use(helmet());
 app.use(
   cors({
-    origin: env.CLIENT_URL,
+    origin(origin, callback) {
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      const isAllowed =
+        allowedOrigins.includes(origin) ||
+        (env.NODE_ENV === "production" && origin.endsWith(".up.railway.app"));
+
+      return callback(null, isAllowed);
+    },
     credentials: true
   })
 );
@@ -34,4 +50,3 @@ app.use("/api/dashboard", dashboardRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
-

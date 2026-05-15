@@ -6,9 +6,9 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(4000),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   CLIENT_URL: z.string().url().default("http://localhost:3000"),
+  CORS_ORIGINS: z.string().optional(),
   JWT_SECRET: z.string().min(24, "JWT_SECRET must be at least 24 characters"),
   JWT_EXPIRES_IN: z.string().default("7d")
 });
 
 export const env = envSchema.parse(process.env);
-
