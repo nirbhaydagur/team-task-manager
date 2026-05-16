@@ -2,22 +2,27 @@
   "name": "team-task-manager",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@9.15.9",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace apps/api\" \"npm run dev --workspace apps/web\"",
-    "dev:api": "npm run dev --workspace apps/api",
-    "dev:web": "npm run dev --workspace apps/web",
-    "build": "npm run build --workspace apps/api && npm run build --workspace apps/web",
-    "lint": "npm run lint --workspace apps/web",
-    "prisma:generate": "npm run prisma:generate --workspace apps/api",
-    "prisma:migrate": "npm run prisma:migrate --workspace apps/api",
-    "db:seed": "npm run db:seed --workspace apps/api"
+    "dev": "concurrently \"pnpm --filter @team-task-manager/api dev\" \"pnpm --filter @team-task-manager/web dev\"",
+    "dev:api": "pnpm --filter @team-task-manager/api dev",
+    "dev:web": "pnpm --filter @team-task-manager/web dev",
+    "build": "pnpm --filter @team-task-manager/api build && pnpm --filter @team-task-manager/web build",
+    "build:api": "pnpm --filter @team-task-manager/api build",
+    "build:web": "pnpm --filter @team-task-manager/web build",
+    "start:api": "pnpm --filter @team-task-manager/api start",
+    "start:web": "pnpm --filter @team-task-manager/web start",
+    "lint": "pnpm --filter @team-task-manager/web lint",
+    "prisma:generate": "pnpm --filter @team-task-manager/api prisma:generate",
+    "prisma:migrate": "pnpm --filter @team-task-manager/api prisma:migrate",
+    "prisma:deploy": "pnpm --filter @team-task-manager/api prisma:deploy",
+    "db:seed": "pnpm --filter @team-task-manager/api db:seed"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
   }
 }
-
